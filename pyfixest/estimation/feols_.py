@@ -1890,7 +1890,7 @@ class Feols:
             ssy = np.sum(_weights * (_Y - Y_w_mean) ** 2)
 
             # Compute RMSE, R-squared, and Adjusted R-squared
-            self._rmse = np.sqrt(ssu / np.sum(_weights))  # Weighted RMSE
+            self._rmse = np.sqrt(ssu / np.sum(_weights))
             self._r2 = 1 - (ssu / ssy)
             self._adj_r2 = 1 - (ssu / ssy) * _adj_factor
         else:
