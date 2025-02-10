@@ -1883,10 +1883,16 @@ class Feols:
         ssy = np.sum((_Y - np.mean(_Y)) ** 2)
 
         if _has_weights:
-            ssy = np.sum(_Y**2) - np.sum(_Y**2) / np.sum(_weights)
-            self._rmse = np.nan
-            self._r2 = np.nan
-            self._adj_r2 = np.nan
+            # Compute weighted mean
+            Y_w_mean = np.sum(_weights * _Y) / np.sum(_weights)
+
+            # Compute weighted total sum of squares (TSS)
+            ssy = np.sum(_weights * (_Y - Y_w_mean) ** 2)
+
+            # Compute RMSE, R-squared, and Adjusted R-squared
+            self._rmse = np.sqrt(ssu / np.sum(_weights))  # Weighted RMSE
+            self._r2 = 1 - (ssu / ssy)
+            self._adj_r2 = 1 - (ssu / ssy) * _adj_factor
         else:
             ssy = np.sum((_Y - np.mean(_Y)) ** 2)
             self._rmse = np.sqrt(ssu / _N)
